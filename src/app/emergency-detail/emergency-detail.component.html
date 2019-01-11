@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Emergency Detail</h2>
+<mat-dialog-content >
+
+  <mat-grid-list cols="2" rowHeight="500px">
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <agm-map [latitude]="cityLatitude" [longitude]="cityLongitude" (mapClick)="mapClick($event)" [zoom]=15>
+            <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+          </agm-map>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <mat-card class="dashboard-card">
+          <mat-card-header>
+            <mat-card-title>
+              Detail
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="dashboard-card-content">
+            <div>Identifier: {{emergency.id}}</div>
+            <div>Time: {{requestTime}}</div>
+            <div>Coordinates: LAT: {{latitude}} | LONG: {{longitude}}</div>
+            <div>Request Person: {{requestPerson}}</div>
+
+            <div *ngIf="!isUpdate">
+              Should Request Ambulance
+              <mat-checkbox *ngIf="!isUpdate" (click)="$event.stopPropagation()"
+                (change)="$event ? withRequestAMB($event) : null"
+                [checked]="isRequestedAmbulance">
+              </mat-checkbox>
+            </div>
+            
+
+            <div *ngIf="isRequestedAmbulance">Ambulance Requested</div>
+            <button mat-raised-button color="primary" *ngIf="!isRequestedAmbulance && isUpdate" (click) = "requestAmbulance()">Request Ambulance</button>
+
+            <button mat-raised-button color="primary" *ngIf="isUpdate" (click) = "notifyPolicemans()">NOTIFY POLICEMANS</button>
+            <form class="example-form">
+              <mat-form-field class="example-full-width">
+                <textarea matInput #productDescriptionField spellcheck="false" placeholder="Additional Info"
+                rows="15" (keyup)="additionalInfo = productDescriptionField.value" 
+                value="{{additionalInfo}}"></textarea>
+              </mat-form-field>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+  </mat-grid-list>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button color="warn" *ngIf="isUpdate" (click) = "deleteEmergency()">Delete Emergency</button>
+  <button mat-raised-button color="primary" (click) = "closeEmergency()">Close</button>
+  <button mat-raised-button color="primary" *ngIf="isUpdate" (click) = "updateEmergency()">Update</button>
+  <button mat-raised-button color="primary" *ngIf="!isUpdate" (click) = "createNewEmergency()">Create Emergency</button>
+</mat-dialog-actions>
