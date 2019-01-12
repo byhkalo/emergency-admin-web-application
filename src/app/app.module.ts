@@ -61,6 +61,8 @@ import { MatAutocompleteModule,
 import { CdkTableModule } from '@angular/cdk/table';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MapDetailComponent } from './map-detail/map-detail.component';
+import { PolicemanDetailComponent } from './policeman-detail/policeman-detail.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +72,8 @@ import { MapDetailComponent } from './map-detail/map-detail.component';
     AmbulanceEmergensiesComponent,
     LoginComponent,
     EmergencyDetailComponent,
-    MapDetailComponent
+    MapDetailComponent,
+    PolicemanDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -128,9 +131,12 @@ import { MapDetailComponent } from './map-detail/map-detail.component';
       apiKey: 'AIzaSyAec8VP1SjCNpDC1ipSPFX5OhZqlBmu6Gk',
       libraries: ['geometry']
     }),
+    
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
-  entryComponents: [EmergencyDetailComponent, MapDetailComponent]
+  entryComponents: [EmergencyDetailComponent, MapDetailComponent, PolicemanDetailComponent]
 })
 export class AppModule { }

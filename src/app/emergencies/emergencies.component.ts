@@ -24,14 +24,10 @@ export class EmergenciesComponent implements OnInit {
   constructor(public dialog: MatDialog, private emergenciesService: EmergenciesService) {}
 
   ngOnInit() {
-    console.log('Emergency Init 1')
     this.dataSource = new EmergenciesTableDS([], this.paginator, this.sort);
-    console.log('Emergency Init 2')
     this.emergenciesService.getEmergensiesAll().subscribe(emergenciesAll => {
-      console.log('getEmergensiesAll emit')
       this.dataSource.data = emergenciesAll;
     });
-    console.log('Emergency Init 3')
   }
   dateTime(timestamp: number): string {
     let date = new Date(timestamp*1000)
@@ -51,9 +47,7 @@ export class EmergenciesComponent implements OnInit {
         data: row
       });
     
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
   showOnMap(row: Emergency) {
     let marker = new Marker()
@@ -61,7 +55,7 @@ export class EmergenciesComponent implements OnInit {
     marker.info = row.info;
     marker.latitude = row.latitude;
     marker.longitude = row.longitude;
-
+    marker.iconUrl = marker.emergencyIcon
     const dialogRef = this.dialog.open(MapDetailComponent, 
       { 
         width: '800px', 
@@ -69,8 +63,6 @@ export class EmergenciesComponent implements OnInit {
         data: marker
       });
     
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
 }

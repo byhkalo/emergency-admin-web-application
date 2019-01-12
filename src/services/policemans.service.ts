@@ -45,14 +45,14 @@ export class PolicemansService {
     }
     
     policemansForEmergencyLocation(latitude: number, longitude: number, maxDistanceMeters: number): Policeman[] {
-        // let first = new google.maps.LatLng(latitude, longitude);
-        // let policemans = this.policemansAllObservable.value;
-        // let emergPolicemans = policemans.filter(tempPoliceman => {
-        //     let second = new google.maps.LatLng(tempPoliceman.latitude, tempPoliceman.longitude);
-        //     let distance = google.maps.geometry.spherical.computeDistanceBetween(first, second)
-        //     return distance <= maxDistanceMeters
-        // })
-        // return emergPolicemans;
-        return []
+        let first = new google.maps.LatLng(latitude, longitude);
+        let policemans = this.policemansAllObservable.value;
+        let emergPolicemans = policemans.filter(tempPoliceman => {
+            let second = new google.maps.LatLng(tempPoliceman.latitude, tempPoliceman.longitude);
+            let distance = google.maps.geometry.spherical.computeDistanceBetween(first, second)
+            return distance <= maxDistanceMeters
+        })
+        return emergPolicemans;
+        // return []
     }
 }

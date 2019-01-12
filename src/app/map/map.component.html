@@ -1,18 +1,16 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
+  <h1 class="mat-h1" *ngIf="markerType == 0">Dashboard | EMERGENCIES</h1>
+  <h1 class="mat-h1" *ngIf="markerType == 1">Dashboard | POLICEMANS</h1>
+  <h1 class="mat-h1" *ngIf="markerType == 2">Dashboard | EMERGENCIES & POLICEMANS</h1>
+  <button class="menuButton" mat-raised-button color="primary" [disabled]="markerType == 0" (click)="showEmergencies()">Show Emergensies</button>
+  <button class="menuButton" mat-raised-button color="primary" [disabled]="markerType == 1" (click)="showPolicemans()">Show Policemans</button>
+  <button class="menuButton" mat-raised-button color="primary" [disabled]="markerType == 2" (click)="showEmergAndPolicemans()">Show Emerg&Police</button>
   <mat-grid-list cols="2" rowHeight="400px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
             {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
@@ -20,13 +18,14 @@
             <agm-marker *ngFor="let marker of markers; let i = index" 
               (markerClick)="openWindow(marker.id)"
               [latitude]="marker.latitude" 
-              [longitude]="marker.longitude">
+              [longitude]="marker.longitude"
+              [iconUrl]='{"url": marker.iconUrl,"scaledSize": {"height": 50, "width": 50}}'>
                 <agm-info-window 
                   [isOpen]="isInfoWindowOpen(marker.id)"
                   [latitude]="marker.latitude" 
                   [longitude]="marker.longitude">
                   <div class="info-marker">
-                      InfoWindow #{{marker.id}}
+                    {{marker.info}}
                       <button mat-raised-button color="primary" (click)="openMarkerDetail(marker.id)">Detail</button>
                   </div>
                 </agm-info-window>

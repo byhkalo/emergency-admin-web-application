@@ -11,7 +11,9 @@
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
           <agm-map [latitude]="marker.latitude" [longitude]="marker.longitude" [zoom]=18>
-            <agm-marker [latitude]="marker.latitude" [longitude]="marker.longitude">
+            <agm-marker [latitude]="marker.latitude" 
+            [longitude]="marker.longitude"
+            [iconUrl]='{"url": marker.iconUrl,"scaledSize": {"height": 50, "width": 50}}'>
               <agm-info-window 
                   [isOpen]="true"
                   [latitude]="marker.latitude" 

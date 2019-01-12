@@ -26,6 +26,8 @@ export class EmergencyDetailComponent implements OnInit {
   cityLatitude = 50.061650;
   cityLongitude = 19.938444;
 
+  currentUser: Policeman | null = null
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: Emergency | null, private emergenciesService: EmergenciesService, 
   private policemansService: PolicemansService, public dialogRef: MatDialogRef<EmergencyDetailComponent>,
   private notificationService: NotificationService, private authService: AuthService) { 
@@ -47,6 +49,9 @@ export class EmergencyDetailComponent implements OnInit {
       this.cityLongitude = this.longitude;
     }
     this.isRequestedAmbulance = this.isUpdate ? this.emergency.ambulanceDetail.isRequested : false
+    authService.getCurrentUserObservable().subscribe(tempUser => {
+      this.currentUser = tempUser;
+    })
   }
 
   ngOnInit() { }
@@ -80,10 +85,10 @@ export class EmergencyDetailComponent implements OnInit {
     let policemans = this.policemansService.policemansForEmergencyLocation(this.latitude, this.longitude, 5000)
     let policemansIds = policemans.map(el => {return el.id });
     let userId: string
-    if (this.authService.currentUser == null) {
+    if (this.currentUser) {
       userId = "admin"
     } else {
-      userId = this.authService.currentUser.id
+      userId = this.currentUser.id
     }
 
     if (this.additionalInfo==undefined) { this.additionalInfo = "" }
@@ -107,8 +112,7 @@ export class EmergencyDetailComponent implements OnInit {
       this.longitude = event.coords.lng;
     }
   }
-  withRequestAMB(eventCheck) {
-    console.log("isRequested = " + eventCheck.checked)
+  withRequestAMB(eventCheck: any) {
     this.isRequestedAmbulance = eventCheck.checked;
   }
 }

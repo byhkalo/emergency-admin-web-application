@@ -17,19 +17,17 @@ export class AuthGuard implements CanActivate {
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         console.log('ROUTER GUARD + ' + next);
-        return this.authService.authState().pipe(map(state => {
-            if (state != null) {
-                console.log('User Logged');
-                if (this.authService.isAdmin) {
-                    return true;
+        return new Observable<boolean>(subs=>{
+            console.log('inside GUARD ');
+            this.authService.isAuthenticated().subscribe((nextValue=> {
+                console.log('isAuthenticated() + ' + nextValue);
+                if (nextValue == true) {
+                    subs.next(true) 
                 } else {
-                    return false;
-                }
-            } else {
-                console.log('Please Log In');
-                this.router.navigate(['/login']);
-                return false;
-            }
-        }));
+                    this.router.navigate(['login'])
+                    subs.next(false) 
+                }   
+            }))
+        })
     }
 }

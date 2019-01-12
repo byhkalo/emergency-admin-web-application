@@ -23,14 +23,10 @@ export class AmbulanceEmergensiesComponent implements OnInit {
   constructor(public dialog: MatDialog, private emergenciesService: EmergenciesService) {}
 
   ngOnInit() {
-    console.log('Emergency Init 1')
     this.dataSource = new AmbulanceEmergensiesTableDS([], this.paginator, this.sort);
-    console.log('Emergency Init 2')
     this.emergenciesService.getAmbulancedEmerg().subscribe(emergenciesAll => {
-      console.log('getEmergensiesAll emit')
       this.dataSource.data = emergenciesAll;
     });
-    console.log('Emergency Init 3')
   }
   dateTime(timestamp: number): string {
     let date = new Date(timestamp*1000)
@@ -45,7 +41,7 @@ export class AmbulanceEmergensiesComponent implements OnInit {
     marker.info = row.info;
     marker.latitude = row.latitude;
     marker.longitude = row.longitude;
-
+    marker.iconUrl = marker.emergencyIcon;
     const dialogRef = this.dialog.open(MapDetailComponent, 
       { 
         width: '800px', 
@@ -53,9 +49,7 @@ export class AmbulanceEmergensiesComponent implements OnInit {
         data: marker
       });
     
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
   acceptAmbulance(row: Emergency) {
     this.emergenciesService.setAmbulanceCompletedEmergency(row, true)
