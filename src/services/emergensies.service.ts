@@ -17,7 +17,7 @@ export class EmergenciesService {
 
     constructor(private fireDatabase: AngularFireDatabase) {
         console.log('EmergenciesService')
-        this.emergensiesAllQuery = fireDatabase.list<Emergency>('emergencies');
+        this.emergensiesAllQuery = fireDatabase.list<Emergency>('emergencies/collection');
         this.emergensiesAllQuery.valueChanges().subscribe(emergencies => {
             console.log('Get Emergencies')
             console.log(emergencies)

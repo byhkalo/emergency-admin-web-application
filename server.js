@@ -11,9 +11,8 @@ app.get('/*', function(req, res) {
 });
 
 // default Heroku port
-var port = process.env.PORT || 5000;
-app.listen(port, function () {
-    var host = server.address().address
-    var port = server.address().port
-        console.log("App Example works on http://%s:%s", host, port)
-    });
+const port = process.env.PORT || 8000;
+
+app.listen(port, () => {
+    console.log("App is running on port " + port);
+});
