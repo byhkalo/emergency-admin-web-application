@@ -59,7 +59,7 @@ export class AuthService {
     }
 
     private connectToCurrentUser(providerId: String, completion: (Policeman) => void) {
-        this.currentUserSubscription = this.firebaseDatabase.object<Policeman>('users/collection/'+providerId)
+        this.currentUserSubscription = this.firebaseDatabase.object<Policeman>('Policeman/collection/'+providerId)
         .valueChanges().subscribe(dbUser => {
             this.currentUser = dbUser;
             this.currentUserObservable.next(dbUser);
